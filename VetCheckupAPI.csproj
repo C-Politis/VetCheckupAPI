@@ -9,9 +9,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.0.26" />
-    <PackageReference Include="VetCheckup.Application" Version="1.0.1" />
-    <PackageReference Include="VetCheckup.Domain" Version="1.0.1" />
-    <PackageReference Include="VetCheckup.Infrastructure" Version="1.0.1" />
+    <PackageReference Include="VetCheckup.Application" Version="1.0.2" />
+    <PackageReference Include="VetCheckup.Domain" Version="1.0.2" />
+    <PackageReference Include="VetCheckup.Infrastructure" Version="1.0.2" />
   </ItemGroup>
 
 </Project>

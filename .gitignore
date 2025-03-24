@@ -13,6 +13,21 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/contentModel.xml
+/projectSettingsUpdater.xml
+/modules.xml
+/.idea.VetCheckupAPI.iml
+/.idea
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+
 # Mono auto generated files
 mono_crash.*
 
