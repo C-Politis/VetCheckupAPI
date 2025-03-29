@@ -8,16 +8,17 @@ namespace VetCheckupAPI.Controllers;
 [Route("[controller]")]
 public class BaseController : ControllerBase
 {
-    public IMediator Mediator { get; } = null!;
+    private IMediator _mediator;
+    protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
 
-    protected ActionResult HandleResult<T>(Result<T>? result)
+    protected ActionResult HandleResult<T>(Result<T> result)
     {
         if (result == null)
             return NotFound();
         if (result.IsSuccess && result.Value != null)
             return Ok(result.Value);        
         if (result.IsSuccess && result.Value == null)
-            return NotFound();
+            return NoContent();
         if (!result.IsSuccess && string.IsNullOrEmpty(result.Error))
            return BadRequest("An unknown error occurred.");
 
