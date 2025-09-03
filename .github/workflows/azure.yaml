@@ -23,14 +23,29 @@ jobs:
 
     - name: Authenticate GitHub Packages
       run: |
-        dotnet nuget add source "https://nuget.pkg.github.com/C-Politis/index.json" \
-          --name github \
+        dotnet nuget add source "https://nuget.pkg.github.com/C-Politis/download/vetcheckup.application/index.json" \
+          --name VetCheckup.Application \
           --username ${{ github.actor }} \
-          --password ${{ secrets.GITHUB_TOKEN }} \
+          --password ${{ secrets.TokenForPackage }} \
+          --store-password-in-clear-text
+
+        dotnet nuget add source "https://nuget.pkg.github.com/C-Politis/download/vetcheckup.domain/index.json" \
+          --name VetCheckup.Domain \
+          --username ${{ github.actor }} \
+          --password ${{ secrets.TokenForPackage }} \
+          --store-password-in-clear-text
+
+        dotnet nuget add source "https://nuget.pkg.github.com/C-Politis/download/vetcheckup.infrastructure/index.json" \
+          --name VetCheckup.Infrastructure \
+          --username ${{ github.actor }} \
+          --password ${{ secrets.TokenForPackage }} \
           --store-password-in-clear-text
 
     - name: Restore dependencies
-      run: dotnet restore --source "https://nuget.pkg.github.com/C-Politis/index.json" --source "https://api.nuget.org/v3/index.json"
+      run: dotnet restore --source "https://nuget.pkg.github.com/C-Politis/download/vetcheckup.application/index.json" \
+                         --source "https://nuget.pkg.github.com/C-Politis/download/vetcheckup.domain/index.json" \
+                         --source "https://nuget.pkg.github.com/C-Politis/download/vetcheckup.infrastructure/index.json" \
+                         --source "https://api.nuget.org/v3/index.json"
 
     - name: Build
       run: dotnet build --configuration Release --no-restore
