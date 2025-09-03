@@ -11,7 +11,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
+    env:
+      NUGET_AUTH_TOKEN: ${{ secrets.TokenForPackage }}
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -19,27 +22,24 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '9.0.x' # Adjust based on your project
+        dotnet-version: '9.0.x'
 
     - name: Authenticate GitHub Packages
       run: |
         dotnet nuget add source "https://nuget.pkg.github.com/C-Politis/download/vetcheckup.application/index.json" \
           --name VetCheckup.Application \
           --username ${{ github.actor }} \
-          --password ${{ secrets.TokenForPackage }} \
-          --store-password-in-clear-text
+          --password $NUGET_AUTH_TOKEN
 
         dotnet nuget add source "https://nuget.pkg.github.com/C-Politis/download/vetcheckup.domain/index.json" \
           --name VetCheckup.Domain \
           --username ${{ github.actor }} \
-          --password ${{ secrets.TokenForPackage }} \
-          --store-password-in-clear-text
+          --password $NUGET_AUTH_TOKEN
 
         dotnet nuget add source "https://nuget.pkg.github.com/C-Politis/download/vetcheckup.infrastructure/index.json" \
           --name VetCheckup.Infrastructure \
           --username ${{ github.actor }} \
-          --password ${{ secrets.TokenForPackage }} \
-          --store-password-in-clear-text
+          --password $NUGET_AUTH_TOKEN
 
     - name: Restore dependencies
       run: dotnet restore --source "https://nuget.pkg.github.com/C-Politis/download/vetcheckup.application/index.json" \
