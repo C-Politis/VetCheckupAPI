@@ -22,7 +22,7 @@ jobs:
         dotnet-version: '9.0.x' # Adjust based on your project
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore --source "https://nuget.pkg.github.com/C-Politis/index.json" --source "https://api.nuget.org/v3/index.json"
 
     - name: Build
       run: dotnet build --configuration Release --no-restore
