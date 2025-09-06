@@ -21,7 +21,7 @@ jobs:
 
       - name: Add GitHub NuGet source
         env:
-          NUGET_AUTH_TOKEN: ${{ secrets.TokenForPackage }}
+          NUGET_AUTH_TOKEN: ${{ secrets.TOKEN_FOR_PACKAGES }}
           GITHUB_ACTOR: ${{ github.actor }}
         run: |
           dotnet nuget add source "https://nuget.pkg.github.com/C-Politis/index.json" \
