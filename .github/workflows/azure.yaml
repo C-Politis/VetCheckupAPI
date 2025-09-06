@@ -14,26 +14,42 @@ jobs:
 
     env:
       NUGET_AUTH_TOKEN: ${{ secrets.TokenForPackage }}
+      GITHUB_ACTOR: ${{ github.actor }}
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '9.0.x'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0.x'
 
-    - name: Restore dependencies
-      run: |
-        dotnet restore \
-          --source "https://$GITHUB_ACTOR:$NUGET_AUTH_TOKEN@nuget.pkg.github.com/C-Politis/download/vetcheckup.application/index.json" \
-          --source "https://$GITHUB_ACTOR:$NUGET_AUTH_TOKEN@nuget.pkg.github.com/C-Politis/download/vetcheckup.domain/index.json" \
-          --source "https://$GITHUB_ACTOR:$NUGET_AUTH_TOKEN@nuget.pkg.github.com/C-Politis/download/vetcheckup.infrastructure/index.json" \
-          --source "https://api.nuget.org/v3/index.json"
+      - name: Add GitHub NuGet sources
+        run: |
+          dotnet nuget add source "https://nuget.pkg.github.com/C-Politis/index.json" \
+            --name VetCheckup.Application \
+            --username "$GITHUB_ACTOR" \
+            --password "$NUGET_AUTH_TOKEN" \
+            --store-password-in-clear-text
 
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
+          dotnet nuget add source "https://nuget.pkg.github.com/C-Politis/index.json" \
+            --name VetCheckup.Domain \
+            --username "$GITHUB_ACTOR" \
+            --password "$NUGET_AUTH_TOKEN" \
+            --store-password-in-clear-text
 
-    - name: Run tests
-      run: dotnet test --configuration Release --no-build --logger trx --results-directory TestResults
+          dotnet nuget add source "https://nuget.pkg.github.com/C-Politis/index.json" \
+            --name VetCheckup.Infrastructure \
+            --username "$GITHUB_ACTOR" \
+            --password "$NUGET_AUTH_TOKEN" \
+            --store-password-in-clear-text
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test --configuration Release --no-build --logger trx --results-directory TestResults
