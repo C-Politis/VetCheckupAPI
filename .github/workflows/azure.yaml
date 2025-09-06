@@ -2,19 +2,13 @@ name: Build and Test
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    env:
-      NUGET_AUTH_TOKEN: ${{ secrets.TokenForPackage }}
-      GITHUB_ACTOR: ${{ github.actor }}
 
     steps:
       - name: Checkout code
@@ -23,24 +17,15 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '9.0.x'
+          dotnet-version: '9.0.x' # adjust if needed
 
-      - name: Add GitHub NuGet sources
+      - name: Add GitHub NuGet source
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.TokenForPackage }}
+          GITHUB_ACTOR: ${{ github.actor }}
         run: |
           dotnet nuget add source "https://nuget.pkg.github.com/C-Politis/index.json" \
-            --name VetCheckup.Application \
-            --username "$GITHUB_ACTOR" \
-            --password "$NUGET_AUTH_TOKEN" \
-            --store-password-in-clear-text
-
-          dotnet nuget add source "https://nuget.pkg.github.com/C-Politis/index.json" \
-            --name VetCheckup.Domain \
-            --username "$GITHUB_ACTOR" \
-            --password "$NUGET_AUTH_TOKEN" \
-            --store-password-in-clear-text
-
-          dotnet nuget add source "https://nuget.pkg.github.com/C-Politis/index.json" \
-            --name VetCheckup.Infrastructure \
+            --name "github" \
             --username "$GITHUB_ACTOR" \
             --password "$NUGET_AUTH_TOKEN" \
             --store-password-in-clear-text
