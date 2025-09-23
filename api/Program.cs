@@ -1,4 +1,8 @@
 using Scalar.AspNetCore;
+using VetCheckup.Application;
+using VetCheckup.Application.UseCases.Vets.CreateVet;
+using VetCheckup.Infrastructure;
+using VetCheckupAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+// Register any Core Services in the Dependency Injection container
+builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -23,4 +31,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+App.SetServiceProvider(app.Services);
+
 app.Run();
+
