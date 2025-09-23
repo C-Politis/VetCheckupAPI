@@ -1,6 +1,5 @@
 using Scalar.AspNetCore;
 using VetCheckup.Application;
-using VetCheckup.Application.UseCases.Vets.CreateVet;
 using VetCheckup.Infrastructure;
 using VetCheckupAPI;
 
