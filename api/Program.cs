@@ -31,7 +31,9 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-App.SetServiceProvider(app.Services);
+App.SetServiceProvider(app.Services.CreateScope().ServiceProvider);
+
+
 
 app.Run();
 
